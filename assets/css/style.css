@@ -24,8 +24,9 @@
   background-color: greenyellow;
   padding: 30px;
   margin: 4px 2px;
-border-radius: 5px;
+  border-radius: 5px;
   text-align: right;
+  font-size: 20px;
 }
 button {
   font-weight: bold;
