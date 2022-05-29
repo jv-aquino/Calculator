@@ -21,12 +21,17 @@
   background-color: rgb(6, 5, 10);
 }
 .display {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 11.5vh;
   background-color: greenyellow;
-  padding: 30px;
+  padding: 10px;
   margin: 4px 2px;
   border-radius: 5px;
   text-align: right;
-  font-size: 20px;
+  font-size: 23px;
 }
 button {
   font-weight: bold;
@@ -37,6 +42,7 @@ button {
 .col {
   display: flex;
   justify-content: space-evenly;
+  gap: 2px;
 }
 .col button {
   flex: 1;
