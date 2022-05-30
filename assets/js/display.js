@@ -1,4 +1,4 @@
-const display = document.querySelector('.display');
+const display = document.querySelector('#displayContent');
 const buttons = document.querySelectorAll('button');
 const calculateButton = document.querySelector('.calculate');
 const clearButton = document.querySelector("#clear");
@@ -38,11 +38,13 @@ function addToDisplay() {
     case '+':
     case '-':
     case 'x':
-    case '/':
+    case '÷':
       if (firstNumber === null) {
         firstNumber = displayValue;
         operator = buttonPressed;
         periodPressed = false;
+
+        textFirstNumber.textContent = firstNumber + operator;
 
         displayValue = '';
       }
@@ -50,6 +52,7 @@ function addToDisplay() {
           secondNumber = displayValue;
           
           displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
+          textFirstNumber.textContent = '';
       
           secondNumber = null;
           firstNumber = null;
@@ -67,6 +70,7 @@ function calculate() {
     secondNumber = displayValue;
     
     displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
+    textFirstNumber.textContent = '';
 
     secondNumber = null;
     firstNumber = null;
