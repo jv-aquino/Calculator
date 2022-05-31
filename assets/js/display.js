@@ -2,6 +2,7 @@ const display = document.querySelector('#displayContent');
 const buttons = document.querySelectorAll('button');
 const calculateButton = document.querySelector('.calculate');
 const clearButton = document.querySelector("#clear");
+const backspaceButton = document.querySelector('#backspace');
 const textFirstNumber = document.querySelector('#firstNumber');
 
 let displayValue = '';
@@ -19,6 +20,8 @@ buttons.forEach(button => {
 calculateButton.addEventListener('click', calculate);
 
 clearButton.addEventListener('click', clearDisplay);
+
+backspaceButton.addEventListener('click', applyBackspace);
 
 function addToDisplay() {
   buttonPressed = this.id;
@@ -44,7 +47,7 @@ function addToDisplay() {
         operator = buttonPressed;
         periodPressed = false;
 
-        textFirstNumber.textContent = firstNumber + operator;
+        textFirstNumber.textContent = firstNumber + " " + operator;
 
         displayValue = '';
       }
@@ -85,5 +88,10 @@ function clearDisplay() {
   operationMade = false;
   
   displayValue = '';
+  display.textContent = displayValue;
+}
+
+function applyBackspace() {
+  displayValue = displayValue.slice(0, -1);
   display.textContent = displayValue;
 }
