@@ -8,10 +8,10 @@ const textFirstNumber = document.querySelector('#firstNumber');
 let displayValue = '';
 let periodPressed = false;
 let operationMade = false;
-let waitNext = false;
 let operator = null;
 let firstNumber = null;
 let secondNumber = null;
+let lastButton = null;
 
 buttons.forEach(button => {
   button.addEventListener('click', addToDisplay);
@@ -19,12 +19,19 @@ buttons.forEach(button => {
 
 calculateButton.addEventListener('click', calculate);
 
-clearButton.addEventListener('click', clearDisplay);
+clearButton.addEventListener('click', clearAll);
 
 backspaceButton.addEventListener('click', applyBackspace);
 
 function addToDisplay() {
-  buttonPressed = this.id;
+  if (lastButton === null) {
+    buttonPressed = this.id;
+  }
+  else {
+    buttonPressed = lastButton;
+    lastButton = null;
+  }
+
   if (!isNaN(buttonPressed) || (buttonPressed == ".") && (periodPressed === false)) {
     if (operationMade == true) {
       clearDisplay();
@@ -37,34 +44,7 @@ function addToDisplay() {
       periodPressed = true;
     }
   }
-  switch (buttonPressed) {
-    case '+':
-    case '-':
-    case 'x':
-    case '÷':
-      if (firstNumber === null) {
-        firstNumber = displayValue;
-        operator = buttonPressed;
-        periodPressed = false;
-
-        textFirstNumber.textContent = firstNumber + " " + operator;
-
-        displayValue = '';
-      }
-      else {
-          secondNumber = displayValue;
-          
-          displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
-          textFirstNumber.textContent = '';
-      
-          secondNumber = null;
-          firstNumber = null;
-      }
-      break;
-
-    default:
-      break;
-  }
+  lastButton = checkOperator();
   display.textContent = displayValue;
 }
 
@@ -94,4 +74,51 @@ function clearDisplay() {
 function applyBackspace() {
   displayValue = displayValue.slice(0, -1);
   display.textContent = displayValue;
+}
+
+function checkOperator() {
+  switch (buttonPressed) {
+    case '+':
+    case '-':
+    case 'x':
+    case '÷':
+      if (firstNumber === null) {
+        firstNumber = displayValue;
+        operator = buttonPressed;
+        periodPressed = false;
+
+        textFirstNumber.textContent = firstNumber + " " + operator;
+
+        displayValue = '';
+        return null;
+      }
+      else {
+          secondNumber = displayValue;
+          
+          displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
+          textFirstNumber.textContent = '';
+      
+          secondNumber = null;
+          firstNumber = null;
+          return buttonPressed;
+      }
+      break;
+
+    default:
+      return null;
+      break;
+  }
+}
+
+function clearAll() {
+  displayValue = '';
+  periodPressed = false;
+  operationMade = false;
+  waitNext = false;
+  operator = null;
+  firstNumber = null;
+  secondNumber = null;
+  lastButton = null;
+
+  textFirstNumber.textContent = display.textContent = displayValue;
 }
