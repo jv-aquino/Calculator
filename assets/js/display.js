@@ -7,11 +7,11 @@ const textFirstNumber = document.querySelector('#firstNumber');
 
 let displayValue = '';
 let periodPressed = false;
-let operationMade = false;
+let operation = false;
+
 let operator = null;
 let firstNumber = null;
 let secondNumber = null;
-let lastButton = null;
 
 buttons.forEach(button => {
   button.addEventListener('click', addToDisplay);
@@ -24,19 +24,9 @@ clearButton.addEventListener('click', clearAll);
 backspaceButton.addEventListener('click', applyBackspace);
 
 function addToDisplay() {
-  if (lastButton === null) {
-    buttonPressed = this.id;
-  }
-  else {
-    buttonPressed = lastButton;
-    lastButton = null;
-  }
+  buttonPressed = this.id;
 
   if (!isNaN(buttonPressed) || (buttonPressed == ".") && (periodPressed === false)) {
-    if (operationMade == true) {
-      clearDisplay();
-      operationMade = false;
-    }
 
     displayValue += buttonPressed;
 
@@ -44,28 +34,36 @@ function addToDisplay() {
       periodPressed = true;
     }
   }
-  lastButton = checkOperator();
+  checkOperator();
   display.textContent = displayValue;
 }
 
 function calculate() {
   if (firstNumber != null) {
     secondNumber = displayValue;
-    
+          
     displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
-    textFirstNumber.textContent = '';
+    if (operation) {
+      operator = buttonPressed;
 
+      textFirstNumber.textContent = displayValue + " " + operator;
+      firstNumber = Number(displayValue);
+      displayValue = '';
+
+      operation = false;
+    }
+    else {
+      textFirstNumber.textContent = '';
+      firstNumber = null;
+    }
+     
     secondNumber = null;
-    firstNumber = null;
   }
-  
   display.textContent = displayValue;
-  operationMade = true;
 }
 
 function clearDisplay() {
   periodPressed = false;
-  operationMade = false;
   
   displayValue = '';
   display.textContent = displayValue;
@@ -90,22 +88,13 @@ function checkOperator() {
         textFirstNumber.textContent = firstNumber + " " + operator;
 
         displayValue = '';
-        return null;
+        return;
       }
-      else {
-          secondNumber = displayValue;
-          
-          displayValue = operate(operator, Number(firstNumber), Number(secondNumber));
-          textFirstNumber.textContent = '';
-      
-          secondNumber = null;
-          firstNumber = null;
-          return buttonPressed;
-      }
+      operation = true;
+      calculate();
       break;
 
     default:
-      return null;
       break;
   }
 }
