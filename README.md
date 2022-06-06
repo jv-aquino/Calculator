@@ -7,3 +7,4 @@ On-screen calculator project from The Odin Project. This calculator is completel
 - Backspace ⌦
 - Multiple operations in sequence
 - Decimal numbers π
+### **[View page](https://jv-aquino.github.io/Calculator/)**
